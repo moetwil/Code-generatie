@@ -1,0 +1,97 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "title" : "home-iot-api",
+    "description" : "The API for the EatBacon IOT project",
+    "version" : "1.0.0"
+  },
+  "servers" : [ {
+    "url" : "https://virtserver.swaggerhub.com/MazeBank/MazeBank/1.0.0",
+    "description" : "MazeBank"
+  } ],
+  "paths" : {
+    "/users" : {
+      "get" : {
+        "tags" : [ "Users" ],
+        "description" : "returns all users",
+        "parameters" : [ {
+          "name" : "offset",
+          "in" : "query",
+          "description" : "number of records to offset",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        }, {
+          "name" : "limit",
+          "in" : "query",
+          "description" : "max number of records to return",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "All the users",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "string",
+                    "description" : "single user object",
+                    "format" : "uri",
+                    "example" : "{\"id\": 1, \"firstName\": \"Luc\"}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{userId}" : {
+      "get" : {
+        "tags" : [ "Users" ],
+        "description" : "returns a single user",
+        "parameters" : [ {
+          "name" : "userId",
+          "in" : "path",
+          "description" : "the id of the user",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "the user",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string",
+                  "description" : "single user object",
+                  "format" : "uri",
+                  "example" : "{\"id\": 1, \"firstName\": \"Luc\"}"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : { }
+  }
+}
