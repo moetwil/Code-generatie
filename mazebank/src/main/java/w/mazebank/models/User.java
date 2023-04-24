@@ -1,7 +1,9 @@
 package w.mazebank.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import w.mazebank.enums.RoleType;
 import jakarta.persistence.*;
 
@@ -11,6 +13,8 @@ import java.util.List;
 
 @Entity
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "users")
 public class User {
     @Id

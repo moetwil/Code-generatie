@@ -1,6 +1,8 @@
 package w.mazebank.models;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import w.mazebank.enums.TransactionType;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
@@ -9,6 +11,8 @@ import java.time.LocalDateTime;
 
 @Entity
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "transactions")
 public class Transaction {
     @Id
