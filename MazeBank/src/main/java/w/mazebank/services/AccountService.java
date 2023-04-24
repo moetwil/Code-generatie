@@ -10,8 +10,7 @@ public class AccountService {
     @Autowired
     private AccountRepository accountRepository;
 
-    public Account addAccount(Account account){
+    public void addAccount(Account account){
         accountRepository.save(account);
-        return account;
     }
 }

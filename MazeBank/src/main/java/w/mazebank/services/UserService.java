@@ -11,8 +11,11 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public User addUser(User user){
+    public User getUserById(Long id){
+        return userRepository.findById(id).orElse(null);
+    }
+
+    public void addUser(User user){
         userRepository.save(user);
-        return user;
     }
 }
