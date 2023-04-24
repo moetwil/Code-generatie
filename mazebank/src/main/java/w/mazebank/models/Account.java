@@ -2,10 +2,10 @@ package w.mazebank.models;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import w.mazebank.enums.AccountType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import w.mazebank.enums.AccountType;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;

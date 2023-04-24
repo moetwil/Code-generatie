@@ -1,9 +1,9 @@
 package w.mazebank.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import w.mazebank.models.Transaction;
 import w.mazebank.repository.TransactionRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class TransactionService {

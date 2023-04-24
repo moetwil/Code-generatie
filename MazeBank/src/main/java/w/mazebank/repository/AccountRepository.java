@@ -1,9 +1,9 @@
 package w.mazebank.repository;
 
+import w.mazebank.models.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import w.mazebank.models.Transaction;
 
 @Repository
-public interface TransactionRepository extends JpaRepository<Transaction, Long> {
+public interface AccountRepository extends JpaRepository<Account, Long> {
 }
