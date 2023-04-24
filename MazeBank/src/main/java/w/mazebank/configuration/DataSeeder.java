@@ -1,9 +1,11 @@
-package w.mazebank.seeder;
+package w.mazebank.configuration;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import w.mazebank.enums.AccountType;
 import w.mazebank.enums.RoleType;
@@ -20,8 +22,12 @@ import java.time.LocalDateTime;
 
 @Component
 public class DataSeeder implements ApplicationRunner {
+
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private AccountService accountService;
@@ -32,9 +38,14 @@ public class DataSeeder implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
 
+//        // create a password for the users
+//        String rawPassword = "123";
+//        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+//        String hashedPassword = passwordEncoder.encode(rawPassword);
+
         // Create some sample users
-        User user1 = new User(1, "user1@example.com", 123456789, "John", "Doe", "password1", "1234567890", RoleType.CUSTOMER, LocalDate.now().minusYears(25), LocalDateTime.now(), false, null);
-        User user2 = new User(2, "user2@example.com", 987654321, "Jane", "Smith", "password2", "0987654321", RoleType.CUSTOMER, LocalDate.now().minusYears(30), LocalDateTime.now(), false, null);
+        User user1 = new User(1, "user1@example.com", 123456789, "John", "Doe", passwordEncoder.encode("1234"), "1234567890", RoleType.CUSTOMER, LocalDate.now().minusYears(25), LocalDateTime.now(), false, null);
+        User user2 = new User(2, "user2@example.com", 987654321, "Jane", "Smith", passwordEncoder.encode("1234"), "0987654321", RoleType.CUSTOMER, LocalDate.now().minusYears(30), LocalDateTime.now(), false, null);
 
         userService.addUser(user1);
         userService.addUser(user2);
