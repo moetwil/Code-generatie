@@ -1,13 +1,13 @@
-package W.MazeBank;
+package w.mazebank;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class MazeBankApplication {
+public class MazebankApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(MazeBankApplication.class, args);
+		SpringApplication.run(MazebankApplication.class, args);
 	}
 
 }

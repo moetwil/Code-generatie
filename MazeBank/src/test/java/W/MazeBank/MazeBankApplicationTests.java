@@ -1,10 +1,10 @@
-package W.MazeBank;
+package w.mazebank;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class MazeBankApplicationTests {
+class MazebankApplicationTests {
 
 	@Test
 	void contextLoads() {
