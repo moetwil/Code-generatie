@@ -10,8 +10,7 @@ public class TransactionService {
     @Autowired
     private TransactionRepository transactionRepository;
 
-    public Transaction transferMoney(Transaction transaction){
+    public void transferMoney(Transaction transaction){
         transactionRepository.save(transaction);
-        return transaction;
     }
 }
