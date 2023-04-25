@@ -24,9 +24,10 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf()
+                .csrf().ignoringRequestMatchers("/h2/**")
                 .disable()
                 .authorizeHttpRequests()
+                .requestMatchers("/h2/**").permitAll()
                 .anyRequest()
                 .permitAll()
                 .and()
@@ -34,8 +35,8 @@ public class SecurityConfiguration {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authenticationProvider(authenticationProvider)
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
-
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+                .headers().frameOptions().sameOrigin();
         return http.build();
     }
 }
