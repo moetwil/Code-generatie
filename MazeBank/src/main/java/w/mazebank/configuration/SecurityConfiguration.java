@@ -24,12 +24,10 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf().ignoringRequestMatchers("/h2/**")
-                .disable()
+                .csrf().disable()
                 .authorizeHttpRequests()
                 .requestMatchers("/h2/**").permitAll()
-                .anyRequest()
-                .permitAll()
+                .requestMatchers("/auth/**").permitAll()
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
