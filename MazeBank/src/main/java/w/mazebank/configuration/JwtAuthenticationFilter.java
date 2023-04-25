@@ -38,20 +38,23 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         final String jwt;
         final String email;
 
-        // If the Authorization header is missing or doesn't start with "Bearer ", return
+        // If the Authorization header is missing or doesn't start with "Bearer ", return without setting the authentication context
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        // Extract the JWT from the Authorization header and get the email from the JWT
+        // Extract the JWT from the Authorization header
+        // get email from jwt
         jwt = authHeader.substring(7);
         email = jwtService.extractEmail(jwt);
 
         // If the JWT is valid, set the authentication context
         if(email != null && SecurityContextHolder.getContext().getAuthentication() == null){
+            // get user details from email
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(email);
 
+            // if the token is valid, set the authentication context
             if(jwtService.isTokenValid(jwt, userDetails)){
                 UsernamePasswordAuthenticationToken authToken =
                         new UsernamePasswordAuthenticationToken(
@@ -60,6 +63,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                 userDetails.getAuthorities()
                         );
 
+                // set the details of the authentication
                 authToken.setDetails(
                         new WebAuthenticationDetailsSource().buildDetails(request)
                 );

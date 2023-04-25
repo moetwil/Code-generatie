@@ -19,25 +19,30 @@ public class ApplicationConfig {
 
     private final UserRepository userRepository;
 
+    // This bean is used by Spring Security to load users from the database
     @Bean
     public UserDetailsService userDetailsService() {
         return username -> userRepository.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
+    // This bean is used by Spring Security to authenticate users
     @Bean
     public AuthenticationProvider authenticationProvider() {
+        // Create an authentication provider that uses the userDetailsService and passwordEncoder
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setUserDetailsService(userDetailsService());
         provider.setPasswordEncoder(passwordEncoder());
         return provider;
     }
 
+    // This bean is used by Spring Security to authenticate users
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
 
+    // This bean is used by Spring Security to encrypt passwords
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

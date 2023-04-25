@@ -22,6 +22,8 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
+//        protect all endpoints except /auth/** and /h2/**
         http
                 .csrf()
                 .disable()
