@@ -84,4 +84,22 @@ public class UserServiceJpa {
     public void addUser(User user) {
         userRepository.save(user);
     }
+
+    public void blockUser(Long id) throws UserNotFoundException {
+        // TODO: check if request is done by employee, if not throw NotAuthException??
+
+        User user = getUserById(id);
+        user.setBlocked(true);
+
+        userRepository.save(user);
+    }
+
+    public void unblockUser(Long id) throws UserNotFoundException {
+        // TODO: check if request is done by employee, if not throw NotAuthException??
+
+        User user = getUserById(id);
+        user.setBlocked(false);
+
+        userRepository.save(user);
+    }
 }

@@ -44,4 +44,16 @@ public class UserController {
     public ResponseEntity<Object> getAllUsers() {
         return ResponseEntity.ok(userService.getAllUsers());
     }
+
+    @PutMapping("/{id}/block")
+    public ResponseEntity<Object> blockUser(@PathVariable Long id) throws UserNotFoundException {
+        userService.blockUser(id);
+        return ResponseEntity.ok(ResponseHandler.generateResponse("User with id: " + id + " blocked"));
+    }
+
+    @PutMapping("/{id}/unblock")
+    public ResponseEntity<Object> unblockUser(@PathVariable Long id) throws UserNotFoundException {
+        userService.unblockUser(id);
+        return ResponseEntity.ok(ResponseHandler.generateResponse("User with id: " + id + " unblocked"));
+    }
 }

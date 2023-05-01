@@ -1,9 +1,11 @@
 package w.mazebank.services;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import w.mazebank.enums.TransactionType;
+import w.mazebank.exceptions.AccountsNotFoundException;
 import w.mazebank.exceptions.UnauthorizedAccountAccessException;
 import w.mazebank.models.Account;
 import w.mazebank.models.Transaction;
@@ -21,11 +23,13 @@ public class AccountServiceJpa {
         accountRepository.save(account);
     }
 
-    public Account getAccountById(Long id) {
-        return accountRepository.getById(id);
+    public Account getAccountById(Long id) throws AccountsNotFoundException {
+        Account account = accountRepository.findById(id).orElse(null);
+        if (account == null) throw new AccountsNotFoundException("Account with id: " + id + " not found");
+        return account;
     }
 
-    public Transaction deposit(Long accountId, double amount, UserDetails userDetails) {
+    public Transaction deposit(Long accountId, double amount, UserDetails userDetails) throws AccountsNotFoundException {
         // get account from database and validate owner
         Account account = getAccountById(accountId);
         validateAccountOwner(userDetails, account);
@@ -40,5 +44,23 @@ public class AccountServiceJpa {
         if (!userDetails.getUsername().equals(account.getUser().getEmail())) {
             throw new UnauthorizedAccountAccessException("You are not authorized to access this account");
         }
+    }
+
+    public void lockAccount(Long id) throws AccountsNotFoundException {
+        // TODO: check if request is done by employee, if not throw NotAuthException??
+
+        Account account = getAccountById(id);
+        account.setActive(true);
+
+        accountRepository.save(account);
+    }
+
+    public void unlockAccount(Long id) throws AccountsNotFoundException {
+        // TODO: check if request is done by employee, if not throw NotAuthException??
+
+        Account account = getAccountById(id);
+        account.setActive(false);
+
+        accountRepository.save(account);
     }
 }

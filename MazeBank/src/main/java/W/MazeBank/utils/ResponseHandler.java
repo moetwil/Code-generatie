@@ -15,4 +15,12 @@ public class ResponseHandler {
 
         return new ResponseEntity<Object>(map, status);
     }
+
+    public static Map<String, String> generateResponse(String message) {
+        // simple response with just message
+        Map<String, String> map = new HashMap<>();
+        map.put("message", message);
+
+        return map;
+    }
 }
