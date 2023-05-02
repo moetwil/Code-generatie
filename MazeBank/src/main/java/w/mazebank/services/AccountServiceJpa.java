@@ -1,11 +1,10 @@
 package w.mazebank.services;
 
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-import w.mazebank.enums.TransactionType;
-import w.mazebank.exceptions.AccountsNotFoundException;
+import w.mazebank.controllers.AccountController;
+import w.mazebank.exceptions.AccountNotFoundException;
 import w.mazebank.exceptions.UnauthorizedAccountAccessException;
 import w.mazebank.models.Account;
 import w.mazebank.models.Transaction;
@@ -23,13 +22,13 @@ public class AccountServiceJpa {
         accountRepository.save(account);
     }
 
-    public Account getAccountById(Long id) throws AccountsNotFoundException {
+    public Account getAccountById(Long id) throws AccountNotFoundException {
         Account account = accountRepository.findById(id).orElse(null);
-        if (account == null) throw new AccountsNotFoundException("Account with id: " + id + " not found");
+        if (account == null) throw new AccountNotFoundException("Account with id: " + id + " not found");
         return account;
     }
 
-    public Transaction deposit(Long accountId, double amount, UserDetails userDetails) throws AccountsNotFoundException {
+    public Transaction deposit(Long accountId, double amount, UserDetails userDetails) throws AccountNotFoundException {
         // get account from database and validate owner
         Account account = getAccountById(accountId);
         validateAccountOwner(userDetails, account);
@@ -46,7 +45,7 @@ public class AccountServiceJpa {
         }
     }
 
-    public void lockAccount(Long id) throws AccountsNotFoundException {
+    public void lockAccount(Long id) throws AccountNotFoundException {
         // TODO: check if request is done by employee, if not throw NotAuthException??
 
         Account account = getAccountById(id);
@@ -55,7 +54,7 @@ public class AccountServiceJpa {
         accountRepository.save(account);
     }
 
-    public void unlockAccount(Long id) throws AccountsNotFoundException {
+    public void unlockAccount(Long id) throws AccountNotFoundException {
         // TODO: check if request is done by employee, if not throw NotAuthException??
 
         Account account = getAccountById(id);
