@@ -53,6 +53,7 @@ public class UserServiceJpa {
         for (Account account : accounts) {
             AccountResponse accountResponse = AccountResponse.builder()
                 .id(account.getId())
+                .accountType(account.getAccountType().getValue())
                 .iban(account.getIban())
                 .balance(account.getBalance())
                 .createdAt(account.getCreatedAt())
@@ -62,7 +63,6 @@ public class UserServiceJpa {
 
         // return account responses
         return accountResponses;
-
     }
 
     public List<UserResponse> getAllUsers() {
