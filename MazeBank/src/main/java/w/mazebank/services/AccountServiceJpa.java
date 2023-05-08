@@ -13,6 +13,7 @@ import w.mazebank.exceptions.UserNotFoundException;
 import w.mazebank.models.Account;
 import w.mazebank.models.Transaction;
 import w.mazebank.models.User;
+import w.mazebank.models.requests.AccountPatchRequest;
 import w.mazebank.models.requests.AccountRequest;
 import w.mazebank.models.responses.AccountResponse;
 import w.mazebank.repositories.AccountRepository;
@@ -78,6 +79,21 @@ public class AccountServiceJpa {
         // cast accountType to integer with AccountResponse::setAccountType
         propertyMapper.addMapping(Account::getAccountType, AccountResponse::setAccountType);
         return mapper.map(newAccount, AccountResponse.class);
+    }
+
+    public AccountResponse updateAccount(long id, AccountPatchRequest body) throws AccountNotFoundException {
+        Account account = getAccountById(id);
+        if (body.getAbsoluteLimit() != null) {
+            account.setAbsoluteLimit(body.getAbsoluteLimit());
+        }
+
+        Account updatedAccount = accountRepository.save(account);
+
+        // map account to account response
+        TypeMap<Account, AccountResponse> propertyMapper = mapper.typeMap(Account.class, AccountResponse.class);
+        // cast accountType to integer with AccountResponse::setAccountType
+        propertyMapper.addMapping(Account::getAccountType, AccountResponse::setAccountType);
+        return mapper.map(updatedAccount, AccountResponse.class);
     }
 
     public Transaction deposit(Long accountId, double amount, User userDetails) throws AccountNotFoundException {

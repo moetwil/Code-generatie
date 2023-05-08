@@ -14,6 +14,7 @@ import w.mazebank.exceptions.UserNotFoundException;
 import w.mazebank.models.Account;
 import w.mazebank.models.Transaction;
 import w.mazebank.models.User;
+import w.mazebank.models.requests.AccountPatchRequest;
 import w.mazebank.models.requests.AccountRequest;
 import w.mazebank.models.requests.DepositRequest;
 import w.mazebank.models.responses.AccountResponse;
@@ -30,6 +31,7 @@ public class AccountController {
     private final ModelMapper mapper = new ModelMapper();
 
     @GetMapping("/{accountId}")
+    @Secured("ROLE_EMPLOYEE")
     public ResponseEntity<AccountResponse> getAccountById(
         @PathVariable Long accountId,
         @AuthenticationPrincipal User user
@@ -43,6 +45,16 @@ public class AccountController {
     public ResponseEntity<Object> createAccount(@RequestBody @Valid AccountRequest body) throws UserNotFoundException, AccountCreationLimitReachedException {
         AccountResponse account = accountServiceJpa.createAccount(body);
         return ResponseEntity.status(HttpStatus.CREATED).body(account);
+    }
+
+    @PatchMapping("/{accountId}")
+    @Secured("ROLE_EMPLOYEE")
+    public ResponseEntity<AccountResponse> updateAccount(
+        @PathVariable Long accountId,
+        @RequestBody @Valid AccountPatchRequest body
+    ) throws AccountNotFoundException {
+        AccountResponse account = accountServiceJpa.updateAccount(accountId, body);
+        return ResponseEntity.ok(account);
     }
 
     @PostMapping("/{accountId}/deposit")
