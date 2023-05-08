@@ -11,6 +11,7 @@ import w.mazebank.models.User;
 import w.mazebank.models.requests.UserPatchRequest;
 import w.mazebank.models.responses.AccountResponse;
 import w.mazebank.models.responses.LockedResponse;
+import w.mazebank.models.responses.UserResponse;
 import w.mazebank.services.UserServiceJpa;
 
 import java.util.List;
@@ -42,9 +43,17 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<Object> getAllUsers() {
-        return ResponseEntity.ok(userService.getAllUsers());
+    @Secured("ROLE_EMPLOYEE")
+    public ResponseEntity<List<UserResponse>> getAllUsers(
+        @RequestParam(defaultValue = "0") int offset,
+        @RequestParam(defaultValue = "10") int limit,
+        @RequestParam(defaultValue = "asc") String sort,
+        @RequestParam(required = false) String search)
+    {
+        List<UserResponse> users = userService.getAllUsers(offset, limit, sort, search);
+        return ResponseEntity.ok(users);
     }
+
 
     @PutMapping("/{id}/block")
     @Secured("ROLE_EMPLOYEE")

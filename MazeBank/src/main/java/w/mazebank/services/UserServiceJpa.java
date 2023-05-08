@@ -12,13 +12,12 @@ import w.mazebank.models.responses.AccountResponse;
 import w.mazebank.models.responses.UserResponse;
 import w.mazebank.repositories.UserRepository;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 @Service
-public class UserServiceJpa {
+public class UserServiceJpa extends BaseServiceJpa {
     @Autowired
     private UserRepository userRepository;
 
@@ -57,6 +56,7 @@ public class UserServiceJpa {
         for (Account account : accounts) {
             AccountResponse accountResponse = AccountResponse.builder()
                 .id(account.getId())
+                .accountType(account.getAccountType().getValue())
                 .iban(account.getIban())
                 .balance(account.getBalance())
                 .createdAt(account.getCreatedAt())
@@ -66,11 +66,10 @@ public class UserServiceJpa {
 
         // return account responses
         return accountResponses;
-
     }
 
-    public List<UserResponse> getAllUsers() {
-        List<User> users = userRepository.findAll();
+    public List<UserResponse> getAllUsers(int offset, int limit, String sort, String search) {
+        List<User> users = findAllPaginationAndSort(offset, limit, sort, search, userRepository);
 
         // parse users to user responses
         List<UserResponse> userResponses = new ArrayList<>();
@@ -84,6 +83,7 @@ public class UserServiceJpa {
         }
         return userResponses;
     }
+
 
     public void addUser(User user) {
         userRepository.save(user);
