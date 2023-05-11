@@ -166,6 +166,7 @@ public class TransactionServiceJpa {
         checkDayLimitExceeded(transaction);
         checkIfTransactionLimitIsExceeded(transaction);
         checkIfAnAccountIsBlocked(transaction);
+        CheckIfUserIsBlocked(transaction);
     }
 
     // validation for all types of ATM transactions
@@ -206,6 +207,17 @@ public class TransactionServiceJpa {
 
         if(!transaction.getReceiver().isActive())
             throw new TransactionFailedException("Receiver account is blocked");
+    }
+
+    private void CheckIfUserIsBlocked(Transaction transaction) throws TransactionFailedException {
+        // get User from sender account
+        User user = transaction.getSender().getUser();
+
+        if(!user.isBlocked())
+            throw new TransactionFailedException("User is blocked");
+
+        if(!transaction.getUserPerforming().isBlocked())
+            throw new TransactionFailedException("User performing is blocked");
     }
 
     private void checkUser(Transaction transaction) throws TransactionFailedException {
