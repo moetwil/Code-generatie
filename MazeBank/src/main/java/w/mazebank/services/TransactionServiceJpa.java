@@ -213,9 +213,6 @@ public class TransactionServiceJpa {
 
         if(!user.isBlocked())
             throw new TransactionFailedException("User is blocked");
-
-        if(!transaction.getUserPerforming().isBlocked())
-            throw new TransactionFailedException("User performing is blocked");
     }
 
     private void checkUser(Transaction transaction) throws TransactionFailedException {
