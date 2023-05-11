@@ -164,8 +164,6 @@ public class TransactionServiceJpa {
         checkIfTransactionLimitIsExceeded(transaction);
         validateSufficientFunds(transaction);
         checkDayLimitExceeded(transaction);
-        checkIfTransactionLimitIsExceeded(transaction);
-        checkIfAnAccountIsBlocked(transaction);
         checkIfUserIsBlocked(transaction);
     }
 
