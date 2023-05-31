@@ -55,6 +55,39 @@ class AuthControllerTest extends BaseControllerTest{
             .contains("authenticationToken");
     }
 
+    @Test
+    void registerMissingAFieldsReturns400() throws Exception {
+        RegisterRequest registerRequest = RegisterRequest.builder()
+            .email("")
+            .bsn(456123759)
+            .firstName("John")
+            .lastName("Doe")
+            .password("Password123!")
+            .phoneNumber("0612345678")
+            .dateOfBirth(LocalDate.of(2000, 1, 1))
+            .build();
+
+        // use info from above to create a request
+        JSONObject request = new JSONObject();
+        request.put("email", "");
+        request.put("bsn", 456123759);
+        request.put("firstName", "John");
+        request.put("lastName", "Doe");
+        request.put("password", "Password123!");
+        request.put("phoneNumber", "0612345678");
+        request.put("dateOfBirth", "2000-01-01");
+
+        when(authService.register(registerRequest)).thenReturn(null);
+
+        // call the controller
+        mockMvc.perform(post("/auth/register")
+                .with(csrf())
+                .contentType("application/json")
+                .content(request.toString())
+            ).andDo(print())
+            .andExpect(status().isBadRequest());
+    }
+
 
 
 }
