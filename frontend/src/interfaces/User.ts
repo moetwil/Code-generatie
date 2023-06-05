@@ -7,7 +7,7 @@ interface User {
   lastName: string;
   email: string;
   phoneNumber: string;
-  role: RoleType;
+  role: string;
   accounts?: AccountCompact[];
 }
 

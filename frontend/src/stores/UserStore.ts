@@ -6,14 +6,14 @@ import AccountCompact from '../interfaces/User';
 // STORE
 export const useUserStore = defineStore({
     id: 'user',
-    state: (): any => ({
-        id: localStorage.getItem('id') || null,
-        firstName: localStorage.getItem('firstName') || null,
-        lastName: localStorage.getItem('lastName') || null,
-        email: localStorage.getItem('email') || null,
-        phoneNumber: localStorage.getItem('phoneNumber') || null,
-        role: localStorage.getItem('role') || null,
-        accounts: localStorage.getItem('accounts') || null,
+    state: (): User => ({
+        id: 0,
+        firstName: "",
+        lastName: "",
+        email: "",
+        phoneNumber: "",
+        role: 'CUSTOMER',
+        accounts: [],       
     }),
     getters: {
         getUser(state) {
@@ -26,6 +26,8 @@ export const useUserStore = defineStore({
     actions: {
         async fetchUser(id: number) {
             try {
+                if (!id) return;
+
                 const response = await axios.get(`/users/${id}`);
                 if (response.status === 200) {
                     // create user object with user data
@@ -45,6 +47,7 @@ export const useUserStore = defineStore({
         },
         async getAccountsOfUser(id: number) {
             try {
+                if (!id) return;
                 const response = await axios.get(`/users/${id}/accounts`);
                 if (response.status === 200) {
                     // for each account in response.data, create an AccountCompact object
@@ -62,9 +65,8 @@ export const useUserStore = defineStore({
                 console.error(error);
             }
         },
-        setAccounts(accounts: AccountCompact[]) {
+        setAccounts(accounts: any[]) {
             this.accounts = accounts;
-            localStorage.setItem('accounts', JSON.stringify(accounts));
         },
         setUser(user: User) {
             this.id = user.id;
@@ -73,18 +75,15 @@ export const useUserStore = defineStore({
             this.email = user.email;
             this.phoneNumber = user.phoneNumber;
             this.role = user.role;
-            localStorage.setItem('user', JSON.stringify(user));
         },
         logout() {
-            localStorage.removeItem('user');
-            localStorage.removeItem('accounts');
-            this.id = null;
-            this.firstName = null;
-            this.lastName = null;
-            this.email = null;
-            this.phoneNumber = null;
-            this.role = null;
-            this.accounts = null;
+            this.id = 0;
+            this.firstName = "";
+            this.lastName = "";
+            this.email = "";
+            this.phoneNumber = "";
+            this.role = 'CUSTOMER';
+            this.accounts = [];
         },
         getAccounts() {
             return this.accounts;
