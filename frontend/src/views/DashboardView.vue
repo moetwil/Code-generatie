@@ -4,7 +4,7 @@
         <div class="py-5 accounts">
             <div class="center">
                 <template v-if="user.accounts && user.accounts.length > 0">
-                    <p class="text-center mt-2">Klik op 1 van je accounts on verder te gaan</p>
+                    <p class="text-center mt-2">Klik op 1 van u rekeningen on verder te gaan</p>
                     <AccountPreviewDashboard v-for="account in user.accounts?.sort((a, b) => a.accountType - b.accountType)"
                         :key="account.id" :iban="account.iban" :balance="account.balance"
                         :accountType="account.accountType === 0 ? 'Current' : 'Savings'" class="account"
@@ -37,7 +37,7 @@ const user = reactive<User>({
     lastName: '',
     email: '',
     phoneNumber: '',
-    role: 0,
+    role: 'CUSTOMER',
     accounts: []
 });
 

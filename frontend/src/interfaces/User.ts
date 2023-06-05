@@ -1,4 +1,3 @@
-import { RoleType } from './../enums/RoleType';
 import AccountCompact from './AccountCompact';
 
 interface User {
