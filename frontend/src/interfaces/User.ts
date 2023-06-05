@@ -8,6 +8,8 @@ interface User {
   phoneNumber: string;
   role: string;
   accounts?: AccountCompact[];
+  transactionLimit?: number;
+  dayLimit?: number;
 }
 
 export default User;

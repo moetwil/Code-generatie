@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 import axios from '../utils/axios';
 import User from '../interfaces/User';
 import AccountCompact from '../interfaces/User';
+import UserPatchRequest from '../interfaces/requests/UserPatchRequest';
 
 // STORE
 export const useUserStore = defineStore({
@@ -14,6 +15,8 @@ export const useUserStore = defineStore({
         phoneNumber: "",
         role: 'CUSTOMER',
         accounts: [],       
+        transactionLimit: 0,
+        dayLimit: 0,
     }),
     getters: {
         getUser(state) {
@@ -38,6 +41,9 @@ export const useUserStore = defineStore({
                         email: response.data.email,
                         phoneNumber: response.data.phoneNumber,
                         role: response.data.role,
+                        accounts: response.data.accounts,
+                        transactionLimit: response.data.transactionLimit,
+                        dayLimit: response.data.dayLimit,
                     };
                     this.setUser(user);
                 }
@@ -65,6 +71,30 @@ export const useUserStore = defineStore({
                 console.error(error);
             }
         },
+        async editUser(user: User) {
+            try {
+                const userPatchRequest: UserPatchRequest = {
+                    email: user.email,
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    phoneNumber: user.phoneNumber,
+                    dayLimit: user.dayLimit,
+                    transactionLimit: user.transactionLimit,
+                };
+
+                const response = await axios.patch(`/users/${user.id}`, userPatchRequest);
+                if (response.status === 200) {
+                    this.setUser(user);
+                    return true;
+                } else {
+                    console.log(response);
+                    return false;
+                }
+            } catch (error: any) {
+                console.error(error);
+                return false;
+            }
+        },            
         setAccounts(accounts: any[]) {
             this.accounts = accounts;
         },
@@ -75,6 +105,8 @@ export const useUserStore = defineStore({
             this.email = user.email;
             this.phoneNumber = user.phoneNumber;
             this.role = user.role;
+            this.accounts = user.accounts;
+            this.transactionLimit = user.transactionLimit;
         },
         logout() {
             this.id = 0;
@@ -84,6 +116,8 @@ export const useUserStore = defineStore({
             this.phoneNumber = "";
             this.role = 'CUSTOMER';
             this.accounts = [];
+            this.transactionLimit = 0;
+            this.dayLimit = 0;
         },
         getAccounts() {
             return this.accounts;

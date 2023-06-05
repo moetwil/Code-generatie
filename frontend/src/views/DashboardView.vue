@@ -7,12 +7,17 @@
                     <p class="text-center mt-2">Klik op 1 van u rekeningen on verder te gaan</p>
                     <AccountPreviewDashboard v-for="account in user.accounts?.sort((a, b) => a.accountType - b.accountType)"
                         :key="account.id" :iban="account.iban" :balance="account.balance"
-                        :accountType="account.accountType === 0 ? 'Current' : 'Savings'" class="account"
+                        :accountType="account.accountType === 0 ? 'Uitgave' : 'Spaar'" class="account"
                         @click="handleClickOnAccount(account.id)" />
                 </template>
                 <template v-else>
                     <p>U heeft nog geen accounts, neem contact op met ons</p>
                 </template>
+                <!-- Wilt u u gegevens wijgzigen ga dan naar de <a> mijn-account pagina -->
+                <div class="text-center mt-2">
+                    <p>Wilt u uw gegevens wijzigen? ga dan naar de <router-link to="/mijn-account">mijn-account
+                            pagina</router-link></p>
+                </div>
             </div>
         </div>
     </div>

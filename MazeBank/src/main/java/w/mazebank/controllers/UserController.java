@@ -27,6 +27,17 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<FullUserResponse> getUserById(@PathVariable Long id, @AuthenticationPrincipal User userPerforming) throws UserNotFoundException {
         User user = userService.getUserByIdAndValidate(id, userPerforming);
+        return mapUserToFullUserResponse(user);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<FullUserResponse> patchUserById(@PathVariable long id, @RequestBody UserPatchRequest userPatchRequest, @AuthenticationPrincipal User userPerforming) throws UserNotFoundException, DisallowedFieldException {
+        System.out.println(userPatchRequest);
+        User user = userService.patchUserById(id, userPatchRequest, userPerforming);
+        return mapUserToFullUserResponse(user);
+    }
+
+    private ResponseEntity<FullUserResponse> mapUserToFullUserResponse(User user) {
         FullUserResponse fullUserResponse = FullUserResponse.builder()
             .id(user.getId())
             .email(user.getEmail())
@@ -43,12 +54,6 @@ public class UserController {
             .blocked(user.isBlocked())
             .build();
         return ResponseEntity.ok(fullUserResponse);
-    }
-
-    @PatchMapping("/{id}")
-    public ResponseEntity<User> patchUserById(@PathVariable long id, @RequestBody UserPatchRequest userPatchRequest, @AuthenticationPrincipal User userPerforming) throws UserNotFoundException, DisallowedFieldException {
-        User user = userService.patchUserById(id, userPatchRequest, userPerforming);
-        return ResponseEntity.ok(user);
     }
 
     @DeleteMapping("/{id}")
