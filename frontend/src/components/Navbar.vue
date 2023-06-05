@@ -41,12 +41,12 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
 import { useAuthenticationStore } from '../stores/AuthenticationStore';
-import { useUserStore } from '../stores/UserStore';
+import { currentUserStore } from '../stores/CurrentUserStore.js';
 import { computed } from 'vue';
 
 // VARIABLES
 const authenticationStore = useAuthenticationStore();
-const userStore = useUserStore();
+const userStore = currentUserStore();
 const router = useRouter();
 
 // Computed property to determine the MazeBank link based on login status

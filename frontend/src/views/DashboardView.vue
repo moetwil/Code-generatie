@@ -25,7 +25,7 @@
 
 <script setup lang="ts">
 import { reactive, onMounted } from 'vue';
-import { useUserStore } from '../stores/UserStore';
+import { currentUserStore } from '../stores/CurrentUserStore.js';
 import { useAuthenticationStore } from '../stores/AuthenticationStore';
 import { useAccountStore } from '../stores/AccountStore';
 import router from '../router';
@@ -33,7 +33,7 @@ import AccountPreviewDashboard from '../components/AccountPreviewDashboard.vue';
 import User from '../interfaces/User';
 
 const authenticationStore = useAuthenticationStore();
-const userStore = useUserStore();
+const userStore = currentUserStore();
 const accountStore = useAccountStore();
 
 const user = reactive<User>({

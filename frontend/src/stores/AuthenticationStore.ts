@@ -3,7 +3,7 @@ import axios from '../utils/axios';
 import Login from '../interfaces/requests/Login';
 import Register from '../interfaces/requests/Register';
 import AuthState from '../interfaces/AuthState';
-import { useUserStore } from './UserStore';
+import { currentUserStore } from './CurrentUserStore';
 
 // STORE
 export const useAuthenticationStore = defineStore({
@@ -46,7 +46,7 @@ export const useAuthenticationStore = defineStore({
       axios.updateAuthorizationHeader('');
       this.userId = null;
       this.isLoggedIn = false;
-      useUserStore().logout();
+      currentUserStore().logout();
       this.router.push('/');
     },
     async register(registerRequest: Register) {

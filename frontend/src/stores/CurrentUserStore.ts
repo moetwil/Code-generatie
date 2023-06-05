@@ -5,7 +5,7 @@ import AccountCompact from '../interfaces/User';
 import UserPatchRequest from '../interfaces/requests/UserPatchRequest';
 
 // STORE
-export const useUserStore = defineStore({
+export const currentUserStore = defineStore({
     id: 'user',
     state: (): User => ({
         id: 0,

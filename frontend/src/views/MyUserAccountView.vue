@@ -32,13 +32,13 @@
 
 <script setup lang="ts">
 import { reactive, onMounted, ref } from 'vue';
-import { useUserStore } from '../stores/UserStore';
+import { currentUserStore } from '../stores/CurrentUserStore.js';
 import { useAuthenticationStore } from '../stores/AuthenticationStore';
 import router from '../router';
 import User from '../interfaces/User';
 
 const authenticationStore = useAuthenticationStore();
-const userStore = useUserStore();
+const userStore = currentUserStore();
 
 const message = ref('');
 
