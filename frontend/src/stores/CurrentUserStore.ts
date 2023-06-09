@@ -25,6 +25,10 @@ export const useCurrentUserStore = defineStore({
     getUser(state) {
       return state;
     },
+    isLoggedIn(state) {
+      console.log(state.id)
+      return state.id !== 0;
+    },
     getIsEmployee(state) {
       return state.role.toString() === 'EMPLOYEE';
     },

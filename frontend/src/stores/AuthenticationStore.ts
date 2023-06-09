@@ -88,5 +88,11 @@ export const useAuthenticationStore = defineStore({
       const decodedToken = JSON.parse(decodedData);
       return decodedToken.userId;
     },
+    getTokenAndUserId() {
+      const token = localStorage.getItem('token');
+      if (token) {
+        return this.decodeJwtReturnsUserId(token);
+      }
+    },
   },
 });
